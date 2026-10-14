@@ -5,8 +5,8 @@
 
 #define MAX 256
 #define CLIMA_1E3 1000
-#define CLIMA_1E4 5000
-#define CLIMA_5E3 10000
+#define CLIMA_1E4 10000
+#define CLIMA_5E3 5000
 
 typedef struct Qair{
     int id_sensor;
@@ -17,7 +17,7 @@ typedef struct Qair{
 } Qair;
 
 typedef struct lista{
-    Qair *dados;
+    Qair *data;
     int n_elementos;
     int size;
 } Lista;
@@ -34,7 +34,7 @@ void add(Lista *lista, Qair qair){
     //printf(" - %d\n",qair.id_sensor);
     if (!isFull(lista))
     {
-        lista->dados[lista->n_elementos - 1] = qair;
+        lista->data[lista->n_elementos] = qair;
         lista->n_elementos = lista->n_elementos + 1;
     }
     else{
@@ -106,29 +106,38 @@ void bubble_sort(double arr[], int n)
 int main()
 {
 
-    //nome e caminho do arquivo
-    char arquivo[] = "dados_clima_manaus_1e3.csv";
+    char arquivo1[] = "dados_clima_manaus_1e4.csv";
 
-    //ler cada vetor de char separado por virgula
+    char arquivo2[] = "dados_clima_manaus_5e3.csv";
+
+
     char *token;
+    char *token2;
 
     Qair dado1[CLIMA_1E3];
     Qair dado2[CLIMA_1E4];
     Qair dado3[CLIMA_5E3];
 
-    Lista list_1e3 = {.dados = dado1, .n_elementos = 0, .size = CLIMA_1E3};
-    Lista list_1e4 = {.dados = dado1, .n_elementos = 0, .size = CLIMA_1E4};
-    Lista list_5e3 = {.dados = dado1, .n_elementos = 0, .size = CLIMA_5E3};
+    Lista list_1e3 = {.data = dado1, .n_elementos = 0, .size = CLIMA_1E3};
+    Lista list_1e4 = {.data = dado2, .n_elementos = 0, .size = CLIMA_1E4};
+    Lista list_5e3 = {.data = dado3, .n_elementos = 0, .size = CLIMA_5E3};
 
-    ler_Arquivo(arquivo, &list_1e3, token);
-    ler_Arquivo(arquivo, &list_1e4,token);
-    ler_Arquivo(arquivo, &list_5e3,token);
+    ler_Arquivo(arquivo1, &list_1e4, token);
+    ler_Arquivo(arquivo2, &list_5e3, token2);
 
-    for (int i = 0; i < CLIMA_1E3 -1; i++)
+    for (int i = 0; i < CLIMA_1E4; i++)
     {
-        printf(" - %d - | %d | %s | %lf | %lf | %d | \n",i,list_1e3.dados[i].id_sensor,list_1e3.dados[i].data,
-        list_1e3.dados[i].temperatura,list_1e3.dados[i].p_umidade,list_1e3.dados[i].nivel_pm25);
+        printf("%d - | %d | %s | %.1lf | %.1lf | %d | \n",i,list_1e4.data[i].id_sensor,list_1e4.data[i].data,
+        list_1e4.data[i].temperatura,list_1e4.data[i].p_umidade,list_1e4.data[i].nivel_pm25);
     }
+
+    
+    for (int i = 0; i < CLIMA_5E3; i++)
+    {
+        printf("%d - | %d | %s | %.1lf | %.1lf | %d | \n",i,list_5e3.data[i].id_sensor,list_5e3.data[i].data,
+        list_5e3.data[i].temperatura,list_5e3.data[i].p_umidade,list_5e3.data[i].nivel_pm25);
+    }
+    
     
 
     return 0;
